@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { ReactNode } from "react";
 import type {
   ProfileContact,
@@ -63,23 +62,13 @@ export function ContactLinks({ contacts }: { contacts: ProfileContact[] }) {
 
 export function ProfileHero({ profile }: { profile: ProfileData }) {
   return (
-    <header className="profile-hero">
-      <Image
-        src={profile.photo}
-        alt={profile.photoAlt}
-        width={176}
-        height={176}
-        priority
-        className="profile-portrait h-36 w-36 shrink-0 rounded-full object-cover sm:h-44 sm:w-44"
-      />
-      <div className="min-w-0 text-center sm:text-left">
-        <p className="profile-kicker">The keeper of these pages</p>
-        <h1 className="mt-3 font-display text-5xl leading-[1.02] tracking-[-0.02em] text-ink sm:text-6xl">{profile.name}</h1>
-        <p className="mt-3 text-lg text-maroon">{profile.title}</p>
-        <p className="mt-4 max-w-xl font-display text-xl leading-8 text-ink/72">“{profile.tagline}”</p>
-        <div className="mt-6 flex justify-center sm:justify-start">
-          <ContactLinks contacts={profile.contacts} />
-        </div>
+    <header className="min-w-0 text-center sm:text-left">
+      <p className="profile-kicker">The keeper of these pages</p>
+      <h1 className="mt-3 font-display text-5xl leading-[1.02] tracking-[-0.02em] text-ink sm:text-6xl">{profile.name}</h1>
+      <p className="mt-3 text-lg text-maroon">{profile.title}</p>
+      <p className="mt-4 max-w-xl font-display text-xl leading-8 text-ink/72">“{profile.tagline}”</p>
+      <div className="mt-6 flex justify-center sm:justify-start">
+        <ContactLinks contacts={profile.contacts} />
       </div>
     </header>
   );

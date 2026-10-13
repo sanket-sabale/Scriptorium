@@ -5,10 +5,11 @@ import remarkGfm from "remark-gfm";
 import { CodeBlock } from "@/components/notes/code-block";
 
 const markdownComponents: Components = {
-  h1: ({ children, ...props }) => <h1 className="markdown-note-heading markdown-note-heading-1" {...props}>{children}</h1>,
-  h2: ({ children, ...props }) => <h2 className="markdown-note-heading markdown-note-heading-2" {...props}>{children}</h2>,
-  h3: ({ children, ...props }) => <h3 className="markdown-note-heading markdown-note-heading-3" {...props}>{children}</h3>,
-  h4: ({ children, ...props }) => <h4 className="markdown-note-heading markdown-note-heading-4" {...props}>{children}</h4>,
+  h1: ({ children, ...props }) => <h2 className="markdown-note-heading markdown-note-heading-1" {...props}>{children}</h2>,
+  h2: ({ children, ...props }) => <h3 className="markdown-note-heading markdown-note-heading-2" {...props}>{children}</h3>,
+  h3: ({ children, ...props }) => <h4 className="markdown-note-heading markdown-note-heading-3" {...props}>{children}</h4>,
+  h4: ({ children, ...props }) => <h5 className="markdown-note-heading markdown-note-heading-4" {...props}>{children}</h5>,
+  h5: ({ children, ...props }) => <h6 className="markdown-note-heading markdown-note-heading-4" {...props}>{children}</h6>,
   p: ({ children, ...props }) => <p className="markdown-note-paragraph" {...props}>{children}</p>,
   ul: ({ children, ...props }) => <ul className="markdown-note-list markdown-note-list-unordered" {...props}>{children}</ul>,
   ol: ({ children, ...props }) => <ol className="markdown-note-list markdown-note-list-ordered" {...props}>{children}</ol>,

@@ -12,6 +12,7 @@ export interface ContentMetadata {
   category: string;
   tags: string[];
   status: ContentStatus;
+  indexable: boolean;
   order?: number;
 }
 
@@ -29,7 +30,7 @@ export interface ContentHeading {
   level: number;
 }
 
-const safeSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const safeSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/i;
 
 function collectionDirectory(collection: ContentCollection) {
   return path.resolve(process.cwd(), "content", collection);
@@ -40,8 +41,10 @@ function fallbackTitle(slug: string) {
 }
 
 function normalizeTags(value: unknown) {
-  if (Array.isArray(value)) return value.filter((tag): tag is string => typeof tag === "string").map((tag) => tag.trim()).filter(Boolean);
-  return typeof value === "string" ? value.split(",").map((tag) => tag.trim()).filter(Boolean) : [];
+  const tags = Array.isArray(value)
+    ? value.filter((tag): tag is string => typeof tag === "string")
+    : typeof value === "string" ? value.split(",") : [];
+  return [...new Set(tags.map((tag) => tag.trim()).filter(Boolean))];
 }
 
 function parseContent(source: string, slug: string): Omit<ContentDocument, "slug"> | null {
@@ -53,7 +56,8 @@ function parseContent(source: string, slug: string): Omit<ContentDocument, "slug
       description: typeof data.description === "string" ? data.description.trim() : "",
       category: typeof data.category === "string" && data.category.trim() ? data.category.trim() : "Uncategorized",
       tags: normalizeTags(data.tags),
-      status: data.status === "draft" ? "draft" : "published",
+      status: data.status === "published" ? "published" : "draft",
+      indexable: data.status === "published" && data.indexable === true,
       order: typeof data.order === "number" ? data.order : undefined,
       content: parsed.content.trimStart(),
     };
@@ -106,6 +110,7 @@ export async function getAllContent(collection: ContentCollection): Promise<Cont
     category: content.category,
     tags: content.tags,
     status: content.status,
+    indexable: content.indexable,
     order: content.order,
   }));
 }
@@ -133,7 +138,7 @@ export function slugifyHeading(value: string, usedIds = new Map<string, number>(
 export function createContentHeadingIndex(content: string): ContentHeading[] {
   const headings = [...content.matchAll(/^(#{1,6})\s+(.+)$/gm)];
   const usedIds = new Map<string, number>();
-  return headings.map((heading) => ({ id: slugifyHeading(heading[2], usedIds), title: heading[2].replace(/[`*_]/g, "").trim(), level: heading[1].length }));
+  return headings.map((heading) => ({ id: slugifyHeading(heading[2], usedIds), title: heading[2].replace(/[`*_]/g, "").trim(), level: Math.min(6, heading[1].length + 1) }));
 }
 
 export function createContentSearchTargets(content: ContentDocument) {

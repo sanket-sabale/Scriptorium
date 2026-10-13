@@ -751,11 +751,6 @@ html[data-theme="dark"] .hljs-variable {
   padding: 2.75rem 0;
 }
 
-.profile-portrait {
-  border: 5px solid var(--parchment-50);
-  box-shadow: 0 0 0 1px rgb(113 49 58 / 22%), 0 12px 24px rgb(39 34 30 / 10%);
-}
-
 .profile-kicker,
 .profile-skill-category {
   color: var(--maroon);

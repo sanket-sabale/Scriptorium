@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <rect x="1" y="1" width="62" height="62" rx="14" fill="#f5efdf" />
+  <rect x="3" y="3" width="58" height="58" rx="12" fill="none" stroke="#bca98f" stroke-width="1.5" />
+  <text x="32" y="32" dominant-baseline="central" text-anchor="middle" fill="#27221e" font-family="Georgia, 'Times New Roman', serif" font-size="48" font-weight="700">S</text>
+</svg>

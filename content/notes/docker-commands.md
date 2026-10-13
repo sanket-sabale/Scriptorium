@@ -7,6 +7,7 @@ tags:
      - Containers
      - DevOps
 status: published
+indexable: true
 ---
 
 ## 1. Docker Command Structure

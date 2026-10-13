@@ -34,29 +34,26 @@ Built as a static site with a warm, "old manuscript" aesthetic (parchment tones,
 scriptorium/
 ├── app/
 │   ├── page.tsx                  # Home page
-│   ├── profile/
-│   │   └── page.tsx               # My Profile (resume-style)
-│   ├── notes/
-│   │   ├── personal/page.tsx
-│   │   ├── ideas/page.tsx
-│   │   └── archive/page.tsx
-│   ├── plans/
-│   │   ├── weekly/page.tsx
-│   │   ├── quarterly/page.tsx
-│   │   └── someday/page.tsx
-│   └── documentation/
-│       ├── getting-started/page.tsx
-│       ├── reference/page.tsx
-│       └── changelog/page.tsx
+│   ├── profile/page.tsx
+│   ├── notes/[slug]/page.tsx
+│   ├── plans/[slug]/page.tsx
+│   ├── documentation/[slug]/page.tsx
+│   ├── robots.ts
+│   ├── sitemap.ts
+│   └── icon.svg
+├── content/                      # Markdown files with front matter
 ├── components/
 │   ├── navbar.tsx
-│   ├── nav-dropdown.tsx
-│   ├── mobile-menu.tsx
-│   └── content-page.tsx
+│   ├── content-page.tsx
+│   └── profile-photo.tsx
 ├── lib/
-│   └── profile-data.ts            # Typed profile/resume data
+│   ├── profile-data.ts
+│   └── seo.ts                     # Origin validation and shared metadata
 ├── public/
-│   └── profile.jpg                # Profile photo
+│   ├── profile_photo.png
+│   └── scriptorium-social-preview.png
+├── assets/
+│   └── scriptorium-social-preview.svg
 └── ...
 ```
 
@@ -96,14 +93,28 @@ npm run build
 npm run lint
 ```
 
+### SEO Output Verification
+
+After building and starting the production server, run `npm run verify:seo` with `NEXT_PUBLIC_SITE_URL` set to the same origin used for the build. The script checks route metadata, indexability, sitemap/robots output, JSON-LD, and image/favicon responses.
+
+### Production URL
+
+Set `NEXT_PUBLIC_SITE_URL` in the production build environment to the real public HTTPS origin (for example, the origin configured for your deployment, with no path, query, or fragment). This value is public site metadata, not a secret. No production domain is configured in this repository. Production builds fail when `NEXT_PUBLIC_SITE_URL` is missing, invalid, or points to a local/private origin; development defaults to `http://localhost:3000`.
+
+Routes are statically prerendered by `next build`, but `next.config.ts` does not enable `output: "export"`; the current build is served by a Next.js runtime using `npm start`. Changing to a standalone static export requires a separate deployment decision.
+
 ---
 
 ## 📝 Customization
 
 - **Profile content** — Edit `lib/profile-data.ts` to update your name, title, contact info, experience, education, and skills
-- **Profile photo** — Replace `public/profile.jpg` with your own image
+- **Profile photo** — Replace `public/profile_photo.png` and update `lib/profile-data.ts` if its path changes
 - **Theme colors** — Adjust the parchment/ink color palette in the Tailwind config or global CSS to personalize the look
-- **Content pages** — Notes, Plans, and Documentation pages currently use placeholder content; replace with your own notes, markdown, or data source as needed
+- **Content pages** — Add Markdown under `content/notes`, `content/plans`, or `content/documentation`. A missing `status` defaults to `draft`; only `status: published` is included in generated routes. Add `indexable: true` to opt a substantive page into search indexing and the sitemap. Indexing is off by default.
+
+Published Markdown is included in the public build and can be fetched directly. `noindex` and `robots.txt` are crawler instructions, not access control; do not put confidential notes or private plans in these folders.
+
+Social platforms may cache preview images and metadata. After a deployment changes a card, use the relevant platform's preview/debugger or cache-refresh flow where available; local verification cannot guarantee a particular platform's rendering.
 
 ---
 

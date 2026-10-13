@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/navbar";
 import { getAllContent } from "@/lib/content/repository";
+import { siteMetadata } from "@/lib/seo";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,13 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "Scriptorium",
-    template: "%s | Scriptorium",
-  },
-  description: "A quiet place for notes, plans, and documentation.",
-};
+export const metadata = siteMetadata;
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const [notes, plans, documentation] = await Promise.all([
