@@ -39,6 +39,7 @@ export interface ProfileData {
   tagline: string;
   photo: string;
   photoAlt: string;
+  photoPosition?: string;
   summary: string;
   contacts: ProfileContact[];
   experience: ProfileExperience[];
@@ -51,8 +52,9 @@ export const profileData: ProfileData = {
   name: "Sanket Sabale",
   title: "Full-Stack Developer",
   tagline: "Building thoughtful web experiences with modern engineering and timeless simplicity.",
-  photo: "/profile-placeholder.svg",
-  photoAlt: "Illustrated profile placeholder for Sanket Sabale",
+  photo: "/profile_photo.png",
+  photoAlt: "Portrait of Sanket Sabale",
+  photoPosition: "50% 15%",
   summary:
     "I build thoughtful digital tools that make complex work feel a little clearer. My practice sits between product thinking and hands-on engineering, with a soft spot for accessible interfaces, durable systems, and well-written documentation.",
   contacts: [

@@ -1,13 +1,20 @@
 import Link from "next/link";
-import type { NoteMetadata } from "@/lib/notes/notes";
+import type { ContentCollection, ContentMetadata } from "@/lib/content/repository";
 
-export function NoteNavigation({ previous, next }: { previous: NoteMetadata | null; next: NoteMetadata | null }) {
+const itemLabels: Record<ContentCollection, string> = {
+  notes: "note",
+  plans: "plan",
+  documentation: "documentation page",
+};
+
+export function NoteNavigation({ collection, previous, next }: { collection: ContentCollection; previous: ContentMetadata | null; next: ContentMetadata | null }) {
   if (!previous && !next) return null;
+  const itemLabel = itemLabels[collection];
 
   return (
-    <nav aria-label="Note navigation" className="note-navigation">
-      {previous ? <Link href={`/notes/${previous.slug}`} className="note-navigation-link note-navigation-previous"><span>Previous note</span><strong>← {previous.title}</strong></Link> : <span />}
-      {next ? <Link href={`/notes/${next.slug}`} className="note-navigation-link note-navigation-next"><span>Next note</span><strong>{next.title} →</strong></Link> : <span />}
+    <nav aria-label={`${collection} navigation`} className="note-navigation">
+      {previous ? <Link href={`/${collection}/${previous.slug}`} className="note-navigation-link note-navigation-previous"><span>Previous {itemLabel}</span><strong>← {previous.title}</strong></Link> : <span />}
+      {next ? <Link href={`/${collection}/${next.slug}`} className="note-navigation-link note-navigation-next"><span>Next {itemLabel}</span><strong>{next.title} →</strong></Link> : <span />}
     </nav>
   );
 }

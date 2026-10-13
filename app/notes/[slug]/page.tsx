@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ContentTemplate } from "@/components/content/content-template";
 import { getAdjacentNotes, getNoteBySlug, getNoteSlugs } from "@/lib/notes/notes";
+import { createPageMetadata } from "@/lib/seo";
 
 type NotePageProps = {
   params: Promise<{ slug: string }>;
@@ -14,10 +14,15 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: NotePageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: NotePageProps) {
   const { slug } = await params;
   const note = await getNoteBySlug(slug);
-  return note ? { title: note.title, description: note.description } : {};
+  return note ? createPageMetadata({
+    path: `/notes/${note.slug}`,
+    title: note.title,
+    description: note.description,
+    indexable: note.indexable,
+  }) : {};
 }
 
 export default async function NotePage({ params }: NotePageProps) {
@@ -25,5 +30,5 @@ export default async function NotePage({ params }: NotePageProps) {
   const note = await getNoteBySlug(slug);
   if (!note) notFound();
   const adjacent = await getAdjacentNotes(slug);
-  return <ContentTemplate content={note} section="Notes" {...adjacent} />;
+  return <ContentTemplate content={note} section="Notes" collection="notes" {...adjacent} />;
 }

@@ -1,6 +1,15 @@
 import Link from "next/link";
 import { ContentPage } from "@/components/content-page";
 
+export const metadata = {
+  title: "Note Not Found",
+  description: "The requested note does not exist in the Scriptorium library.",
+  alternates: { canonical: null },
+  robots: { index: false, follow: true },
+  openGraph: null,
+  twitter: null,
+};
+
 export default function NoteNotFound() {
   return (
     <ContentPage eyebrow="Notes / Not found" title="This page is missing" description="The requested note does not exist in the Scriptorium library.">

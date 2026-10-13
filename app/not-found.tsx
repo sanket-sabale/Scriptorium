@@ -1,6 +1,15 @@
 import Link from "next/link";
 import { ContentPage } from "@/components/content-page";
 
+export const metadata = {
+  title: "Page Not Found",
+  description: "The requested page could not be found in the Scriptorium library.",
+  alternates: { canonical: null },
+  robots: { index: false, follow: true },
+  openGraph: null,
+  twitter: null,
+};
+
 export default function NotFound() {
   return (
     <ContentPage eyebrow="404 / Not found" title="This page is missing" description="The requested page could not be found in the Scriptorium library.">
